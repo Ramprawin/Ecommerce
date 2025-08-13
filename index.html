@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MegaMart - Complete Shopping Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #ff6b35;
+            --secondary: #004e89;
+            --accent: #ffd23f;
+            --success: #06d6a0;
+            --warning: #f18701;
+            --danger: #e63946;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .floating-btn {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .pulse-ring {
+            animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(.33); }
+            80%, 100% { opacity: 0; }
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .notification {
+            animation: slideInDown 0.5s ease-out;
+        }
+        
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Banner -->
+    <div class="bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white text-center py-2 text-sm font-medium">
+        🎉 MEGA SALE: Up to 80% OFF + Free Shipping on orders above $50! 🚚
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <!-- Main Header -->
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 flex-shrink-0">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-2 rounded-xl shadow-lg">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">MegaMart</h1>
+                </div>
+
+                <!-- Search Bar - Centered and Prominent -->
+                <div class="flex-1 max-w-3xl mx-6">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                            </svg>
+                        </div>
+                        <input type="text" id="searchInput" placeholder="Search for products, brands and more..." 
+                               class="w-full pl-12 pr-16 py-4 text-lg border-2 border-gray-200 rounded-full focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-300 shadow-sm">
+                        <button onclick="searchProducts()" class="absolute right-2 top-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full hover:from-orange-600 hover:to-red-600 transition-all font-semibold shadow-lg">
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Actions - Simplified -->
+                <div class="flex items-center space-x-4 flex-shrink-0">
+                    <!-- Account -->
+                    <div class="relative group">
+                        <button class="flex flex-col items-center text-gray-700 hover:text-orange-500 transition-colors p-2">
+                            <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                            </svg>
+                            <span class="text-xs font-medium">Account</span>
+                        </button>
+                        <!-- Account Dropdown -->
+                        <div class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border">
+                            <div class="p-4 border-b bg-gradient-to-r from-orange-50 to-red-50 rounded-t-xl">
+                                <button class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transition-all shadow-lg">
+                                    Sign In
+                                </button>
+                                <p class="text-sm text-gray-600 mt-2 text-center">New customer? <a href="#" class="text-orange-500 hover:underline font-medium">Start here</a></p>
+                            </div>
+                            <div class="p-2">
+                                <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-lg transition-colors">
+                                    <svg class="w-4 h-4 mr-3 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                                    </svg>
+                                    Your Account
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-lg transition-colors">
+                                    <svg class="w-4 h-4 mr-3 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a2 2 0 002 2h4a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"/>
+                                    </svg>
+                                    Your Orders
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 rounded-lg transition-colors">
+                                    <svg class="w-4 h-4 mr-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                                    </svg>
+                                    Your Wishlist
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orders -->
+                    <button class="flex flex-col items-center text-gray-700 hover:text-orange-500 transition-colors p-2">
+                        <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a2 2 0 002 2h4a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"/>
+                        </svg>
+                        <span class="text-xs font-medium">Orders</span>
+                    </button>
+
+                    <!-- Cart -->
+                    <button onclick="toggleCart()" class="relative flex flex-col items-center text-gray-700 hover:text-orange-500 transition-colors p-2">
+                        <div class="relative">
+                            <svg class="w-7 h-7 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                            </svg>
+                            <span id="cartCount" class="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+                        </div>
+                        <span class="text-xs font-medium">Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location Bar -->
+        <div class="bg-gradient-to-r from-gray-50 to-orange-50 border-t border-gray-100">
+            <div class="container mx-auto px-4 py-2">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2 text-gray-700">
+                        <svg class="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"/>
+                        </svg>
+                        <span class="text-sm">Deliver to <strong>New York 10001</strong></span>
+                    </div>
+                    <div class="flex items-center space-x-6 text-sm">
+                        <div class="flex items-center space-x-1 text-blue-600 font-medium">
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-1 rounded text-xs font-bold">
+                                PRIME
+                            </div>
+                            <span>Free 2-Day Shipping</span>
+                        </div>
+                        <div class="flex items-center space-x-1 text-green-600 font-medium">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                            </svg>
+                            <span>Customer Service 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Categories -->
+        <nav class="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center space-x-8 overflow-x-auto py-3">
+                    <button onclick="toggleAllCategories()" class="flex items-center space-x-2 hover:text-orange-300 transition-colors whitespace-nowrap">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                        </svg>
+                        <span class="font-semibold">All Categories</span>
+                    </button>
+                    <button onclick="filterByCategory('electronics')" class="category-btn hover:text-orange-300 transition-colors whitespace-nowrap">📱 Electronics</button>
+                    <button onclick="filterByCategory('fashion')" class="category-btn hover:text-orange-300 transition-colors whitespace-nowrap">👗 Fashion</button>
+                    <button onclick="filterByCategory('home')" class="category-btn hover:text-orange-300 transition-colors whitespace-nowrap">🏠 Home & Kitchen</button>
+                    <button onclick="filterByCategory('books')" class="category-btn hover:text-orange-300 transition-colors whitespace-nowrap">📚 Books</button>
+                    <button onclick="filterByCategory('sports')" class="category-btn hover:text-orange-300 transition-colors whitespace-nowrap">⚽ Sports</button>
+                    <button onclick="filterByCategory('beauty')" class="category-btn hover:text-orange-300 transition-colors whitespace-nowrap">💄 Beauty</button>
+                    <button onclick="filterByCategory('automotive')" class="category-btn hover:text-orange-300 transition-colors whitespace-nowrap">🚗 Automotive</button>
+                    <button onclick="showDeals()" class="text-yellow-300 hover:text-yellow-200 transition-colors whitespace-nowrap font-semibold">⚡ Today's Deals</button>
+                    <button onclick="showBestSellers()" class="text-green-300 hover:text-green-200 transition-colors whitespace-nowrap font-semibold">🏆 Best Sellers</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Carousel -->
+    <section class="relative h-96 overflow-hidden">
+        <div id="heroCarousel" class="flex transition-transform duration-500 ease-in-out h-full">
+            <div class="min-w-full bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 flex items-center justify-center text-white">
+                <div class="text-center">
+                    <h2 class="text-5xl font-bold mb-4">🎉 MEGA SALE</h2>
+                    <p class="text-2xl mb-6">Up to 80% OFF on Electronics</p>
+                    <button onclick="filterByCategory('electronics')" class="bg-white text-purple-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">Shop Now</button>
+                </div>
+            </div>
+            <div class="min-w-full bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 flex items-center justify-center text-white">
+                <div class="text-center">
+                    <h2 class="text-5xl font-bold mb-4">👗 Fashion Week</h2>
+                    <p class="text-2xl mb-6">Trendy Styles Starting at $19</p>
+                    <button onclick="filterByCategory('fashion')" class="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">Explore Fashion</button>
+                </div>
+            </div>
+            <div class="min-w-full bg-gradient-to-r from-orange-600 via-yellow-600 to-red-600 flex items-center justify-center text-white">
+                <div class="text-center">
+                    <h2 class="text-5xl font-bold mb-4">🏠 Home Makeover</h2>
+                    <p class="text-2xl mb-6">Transform Your Space Today</p>
+                    <button onclick="filterByCategory('home')" class="bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">Shop Home</button>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel Controls -->
+        <button onclick="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"/>
+            </svg>
+        </button>
+        <button onclick="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/>
+            </svg>
+        </button>
+        <!-- Carousel Indicators -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <button onclick="goToSlide(0)" class="carousel-indicator w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-75 transition-all"></button>
+            <button onclick="goToSlide(1)" class="carousel-indicator w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-75 transition-all"></button>
+            <button onclick="goToSlide(2)" class="carousel-indicator w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-75 transition-all"></button>
+        </div>
+    </section>
+
+    <!-- Quick Access Cards -->
+    <section class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div onclick="showDeals()" class="bg-gradient-to-br from-red-500 to-pink-600 text-white p-6 rounded-xl cursor-pointer hover:scale-105 transition-transform">
+                <div class="text-3xl mb-2">⚡</div>
+                <h3 class="font-bold">Lightning Deals</h3>
+                <p class="text-sm opacity-90">Limited time offers</p>
+            </div>
+            <div onclick="showCoupons()" class="bg-gradient-to-br from-green-500 to-teal-600 text-white p-6 rounded-xl cursor-pointer hover:scale-105 transition-transform">
+                <div class="text-3xl mb-2">🎫</div>
+                <h3 class="font-bold">Coupons</h3>
+                <p class="text-sm opacity-90">Extra savings</p>
+            </div>
+            <div onclick="showBestSellers()" class="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-6 rounded-xl cursor-pointer hover:scale-105 transition-transform">
+                <div class="text-3xl mb-2">🏆</div>
+                <h3 class="font-bold">Best Sellers</h3>
+                <p class="text-sm opacity-90">Top rated items</p>
+            </div>
+            <div onclick="showNewArrivals()" class="bg-gradient-to-br from-orange-500 to-yellow-600 text-white p-6 rounded-xl cursor-pointer hover:scale-105 transition-transform">
+                <div class="text-3xl mb-2">✨</div>
+                <h3 class="font-bold">New Arrivals</h3>
+                <p class="text-sm opacity-90">Fresh products</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters and Sort -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex items-center space-x-2">
+                        <label class="text-gray-700 font-semibold">Sort:</label>
+                        <select id="sortSelect" onchange="sortProducts()" class="border-2 border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500 transition-colors">
+                            <option value="featured">Featured</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Customer Rating</option>
+                            <option value="newest">Newest First</option>
+                            <option value="bestseller">Best Sellers</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label class="text-gray-700 font-semibold">Price:</label>
+                        <select id="priceFilter" onchange="filterByPrice()" class="border-2 border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500 transition-colors">
+                            <option value="all">All Prices</option>
+                            <option value="0-25">Under $25</option>
+                            <option value="25-50">$25 - $50</option>
+                            <option value="50-100">$50 - $100</option>
+                            <option value="100-500">$100 - $500</option>
+                            <option value="500+">$500+</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label class="text-gray-700 font-semibold">Rating:</label>
+                        <select id="ratingFilter" onchange="filterByRating()" class="border-2 border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500 transition-colors">
+                            <option value="all">All Ratings</option>
+                            <option value="4+">4★ & Above</option>
+                            <option value="3+">3★ & Above</option>
+                            <option value="2+">2★ & Above</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleViewMode()" id="viewModeBtn" class="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                        </svg>
+                        <span>Grid View</span>
+                    </button>
+                    <span class="text-gray-600" id="productCount">Showing 0 products</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <main class="container mx-auto px-4 pb-12" id="productsSection">
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+        
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button onclick="loadMoreProducts()" id="loadMoreBtn" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-orange-600 hover:to-red-600 transition-all transform hover:scale-105 shadow-lg">
+                Load More Products
+            </button>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-6 right-6 flex flex-col space-y-4 z-40">
+        <button onclick="scrollToTop()" class="floating-btn bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L10 4.414 4.707 9.707a1 1 0 01-1.414 0z"/>
+            </svg>
+        </button>
+        <button onclick="toggleCompare()" class="floating-btn bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all relative">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15.586 13H17a1 1 0 010-2z"/>
+            </svg>
+            <span id="compareCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+        </button>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex flex-col h-full">
+            <div class="p-6 border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold">Shopping Cart</h3>
+                    <button onclick="toggleCart()" class="text-white hover:text-gray-200">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-sm opacity-90 mt-1">Free shipping on orders over $50</p>
+            </div>
+            <div id="cartItems" class="flex-1 overflow-y-auto p-6">
+                <div class="text-center text-gray-500 py-12">
+                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                    </svg>
+                    <p class="text-lg font-medium">Your cart is empty</p>
+                    <p class="text-sm">Add some products to get started!</p>
+                </div>
+            </div>
+            <div id="cartFooter" class="border-t p-6 bg-gray-50">
+                <div class="space-y-3 mb-4">
+                    <div class="flex justify-between text-sm">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Shipping:</span>
+                        <span id="cartShipping" class="text-green-600">FREE</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Tax:</span>
+                        <span id="cartTax">$0.00</span>
+                    </div>
+                    <div class="border-t pt-3 flex justify-between text-lg font-bold">
+                        <span>Total:</span>
+                        <span id="cartTotalAmount" class="text-orange-600">$0.00</span>
+                    </div>
+                </div>
+                <button onclick="proceedToCheckout()" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-lg font-bold text-lg hover:from-orange-600 hover:to-red-600 transition-all transform hover:scale-105 shadow-lg mb-3">
+                    Proceed to Checkout
+                </button>
+                <button onclick="continueShopping()" class="w-full border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Quick View Modal -->
+    <div id="quickViewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-6xl w-full max-h-screen overflow-y-auto slide-in-right">
+            <div id="quickViewContent" class="p-8">
+                <!-- Quick view content will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Compare Modal -->
+    <div id="compareModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-7xl w-full max-h-screen overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold">Compare Products</h2>
+                    <button onclick="closeCompareModal()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div id="compareContent">
+                    <!-- Compare content will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="fixed top-20 right-4 z-50 space-y-2">
+        <!-- Notifications will be dynamically added here -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-3 rounded-xl">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold">MegaMart</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6">Your ultimate shopping destination with millions of products, great deals, and exceptional customer service. Shop with confidence!</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 p-3 rounded-full transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="bg-blue-800 hover:bg-blue-900 p-3 rounded-full transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="bg-pink-600 hover:bg-pink-700 p-3 rounded-full transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="bg-red-600 hover:bg-red-700 p-3 rounded-full transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-orange-400">Get to Know Us</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition-colors">About MegaMart</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Press Releases</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">MegaMart Cares</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Gift a Smile</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-orange-400">Make Money with Us</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition-colors">Sell on MegaMart</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Become an Affiliate</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Advertise Your Products</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Self-Publish with Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Host a Hub</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-orange-400">Let Us Help You</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition-colors">Your Account</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Your Orders</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Shipping Rates & Policies</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Returns & Replacements</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">&copy; 2024 MegaMart. All rights reserved. This is a comprehensive demo ecommerce platform.</p>
+                    <div class="flex items-center space-x-6 mt-4 md:mt-0">
+                        <span class="text-gray-400 text-sm">We Accept:</span>
+                        <div class="flex space-x-2">
+                            <div class="bg-blue-600 text-white px-2 py-1 rounded text-xs font-bold">VISA</div>
+                            <div class="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">MC</div>
+                            <div class="bg-blue-800 text-white px-2 py-1 rounded text-xs font-bold">AMEX</div>
+                            <div class="bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold">PP</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced product data with more features
+        const products = [
+            {
+                id: 1,
+                name: "iPhone 15 Pro Max",
+                price: 1199,
+                originalPrice: 1299,
+                category: "electronics",
+                rating: 4.8,
+                reviews: 2547,
+                image: "📱",
+                description: "The most advanced iPhone ever with titanium design, A17 Pro chip, and professional camera system",
+                features: ["6.7-inch Super Retina XDR", "A17 Pro chip", "Pro camera system", "Titanium design", "Action Button"],
+                brand: "Apple",
+                inStock: true,
+                fastDelivery: true,
+                freeShipping: true,
+                bestseller: true,
+                newArrival: false,
+                discount: 8,
+                colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"],
+                specifications: {
+                    "Display": "6.7-inch Super Retina XDR",
+                    "Chip": "A17 Pro",
+                    "Camera": "48MP Main, 12MP Ultra Wide, 12MP Telephoto",
+                    "Storage": "256GB",
+                    "Battery": "Up to 29 hours video playback"
+                }
+            },
+            {
+                id: 2,
+                name: "Samsung 65\" QLED 4K Smart TV",
+                price: 899,
+                originalPrice: 1199,
+                category: "electronics",
+                rating: 4.6,
+                reviews: 1834,
+                image: "📺",
+                description: "Immersive 4K experience with Quantum Dot technology and smart features",
+                features: ["65-inch QLED display", "4K UHD resolution", "HDR10+ support", "Smart TV with Tizen OS", "Voice control"],
+                brand: "Samsung",
+                inStock: true,
+                fastDelivery: true,
+                freeShipping: true,
+                bestseller: true,
+                newArrival: false,
+                discount: 25,
+                colors: ["Black"],
+                specifications: {
+                    "Screen Size": "65 inches",
+                    "Resolution": "4K UHD (3840 x 2160)",
+                    "Display Type": "QLED",
+                    "Smart Platform": "Tizen OS",
+                    "HDR": "HDR10+"
+                }
+            },
+            {
+                id: 3,
+                name: "Nike Air Jordan 1 Retro High",
+                price: 170,
+                originalPrice: 200,
+                category: "fashion",
+                rating: 4.9,
+                reviews: 3421,
+                image: "👟",
+                description: "Iconic basketball shoe with premium leather and classic colorway",
+                features: ["Premium leather upper", "Air-Sole unit", "Rubber outsole", "Classic design", "Multiple colorways"],
+                brand: "Nike",
+                inStock: true,
+                fastDelivery: false,
+                freeShipping: true,
+                bestseller: true,
+                newArrival: false,
+                discount: 15,
+                colors: ["Chicago", "Bred", "Royal", "Shadow"],
+                specifications: {
+                    "Material": "Premium leather",
+                    "Sole": "Rubber with Air-Sole unit",
+                    "Closure": "Lace-up",
+                    "Style": "High-top",
+                    "Origin": "Vietnam"
+                }
+            },
+            {
+                id: 4,
+                name: "Ninja Foodi Personal Blender",
+                price: 79,
+                originalPrice: 99,
+                category: "home",
+                rating: 4.5,
+                reviews: 892,
+                image: "🥤",
+                description: "Powerful personal blender perfect for smoothies and protein shakes",
+                features: ["1000W motor", "18oz cup", "To-go lid", "Easy cleanup", "BPA-free"],
+                brand: "Ninja",
+                inStock: true,
+                fastDelivery: true,
+                freeShipping: false,
+                bestseller: false,
+                newArrival: true,
+                discount: 20,
+                colors: ["Black", "Silver"],
+                specifications: {
+                    "Power": "1000 watts",
+                    "Capacity": "18 oz",
+                    "Material": "BPA-free plastic",
+                    "Dimensions": "5.5 x 5.5 x 15.5 inches",
+                    "Weight": "3.2 lbs"
+                }
+            },
+            {
+                id: 5,
+                name: "The Psychology of Money",
+                price: 14,
+                originalPrice: 18,
+                category: "books",
+                rating: 4.7,
+                reviews: 8934,
+                image: "📚",
+                description: "Timeless lessons on wealth, greed, and happiness by Morgan Housel",
+                features: ["Bestselling finance book", "Easy to understand", "Real-world examples", "Practical advice", "Paperback edition"],
+                brand: "Harriman House",
+                inStock: true,
+                fastDelivery: true,
+                freeShipping: false,
+                bestseller: true,
+                newArrival: false,
+                discount: 22,
+                colors: ["Standard"],
+                specifications: {
+                    "Pages": "256",
+                    "Publisher": "Harriman House",
+                    "Language": "English",
+                    "ISBN": "978-0857197689",
+                    "Dimensions": "5.1 x 0.8 x 7.8 inches"
+                }
+            },
+            {
+                id: 6,
+                name: "Manduka PRO Yoga Mat",
+                price: 88,
+                originalPrice: 120,
+                category: "sports",
+                rating: 4.8,
+                reviews: 1567,
+                image: "🧘",
+                description: "Professional-grade yoga mat with superior grip and cushioning",
+                features: ["6mm thickness", "Superior grip", "Lifetime guarantee", "Eco-friendly", "Non-slip surface"],
+                brand: "Manduka",
+                inStock: true,
+                fastDelivery: false,
+                freeShipping: true,
+                bestseller: false,
+                newArrival: false,
+                discount: 27,
+                colors: ["Black", "Purple", "Blue", "Green"],
+                specifications: {
+                    "Thickness": "6mm",
+                    "Dimensions": "71 x 24 inches",
+                    "Material": "PVC",
+                    "Weight": "5.5 lbs",
+                    "Warranty": "Lifetime"
+                }
+            },
+            {
+                id: 7,
+                name: "Sony WH-1000XM5 Headphones",
+                price: 349,
+                originalPrice: 399,
+                category: "electronics",
+                rating: 4.7,
+                reviews: 2156,
+                image: "🎧",
+                description: "Industry-leading noise canceling with premium sound quality",
+                features: ["30-hour battery", "Quick charge", "Multipoint connection", "Touch controls", "Voice assistant"],
+                brand: "Sony",
+                inStock: true,
+                fastDelivery: true,
+                freeShipping: true,
+                bestseller: true,
+                newArrival: false,
+                discount: 13,
+                colors: ["Black", "Silver"],
+                specifications: {
+                    "Battery Life": "30 hours",
+                    "Charging": "USB-C",
+                    "Weight": "8.8 oz",
+                    "Connectivity": "Bluetooth 5.2",
+                    "Noise Canceling": "Yes"
+                }
+            },
+            {
+                id: 8,
+                name: "Coach Leather Handbag",
+                price: 295,
+                originalPrice: 395,
+                category: "fashion",
+                rating: 4.6,
+                reviews: 743,
+                image: "👜",
+                description: "Elegant leather handbag with signature Coach craftsmanship",
+                features: ["Genuine leather", "Multiple compartments", "Adjustable strap", "Signature hardware", "Dust bag included"],
+                brand: "Coach",
+                inStock: true,
+                fastDelivery: false,
+                freeShipping: true,
+                bestseller: false,
+                newArrival: true,
+                discount: 25,
+                colors: ["Black", "Brown", "Red", "Navy"],
+                specifications: {
+                    "Material": "Refined pebble leather",
+                    "Dimensions": "12.5 x 9 x 4.75 inches",
+                    "Strap Drop": "8.5 inches",
+                    "Closure": "Zip",
+                    "Interior": "Fabric lining"
+                }
+            },
+            {
+                id: 9,
+                name: "Fenty Beauty Gloss Bomb",
+                price: 19,
+                originalPrice: 22,
+                category: "beauty",
+                rating: 4.4,
+                reviews: 5632,
+                image: "💄",
+                description: "Universal lip luminizer with explosive shine and comfort",
+                features: ["Universal shade", "Non-sticky formula", "Explosive shine", "Comfortable wear", "Cruelty-free"],
+                brand: "Fenty Beauty",
+                inStock: true,
+                fastDelivery: true,
+                freeShipping: false,
+                bestseller: true,
+                newArrival: false,
+                discount: 14,
+                colors: ["Fu$$y", "Fenty Glow", "Hot Chocolit", "Sweet Mouth"],
+                specifications: {
+                    "Volume": "0.32 fl oz",
+                    "Finish": "Glossy",
+                    "Coverage": "Sheer",
+                    "Cruelty-Free": "Yes",
+                    "Vegan": "Yes"
+                }
+            },
+            {
+                id: 10,
+                name: "Tesla Model S Wheel Cover",
+                price: 89,
+                originalPrice: 120,
+                category: "automotive",
+                rating: 4.3,
+                reviews: 234,
+                image: "🚗",
+                description: "Aerodynamic wheel cover designed for Tesla Model S",
+                features: ["Aerodynamic design", "Easy installation", "Durable material", "Perfect fit", "Set of 4"],
+                brand: "Tesla",
+                inStock: false,
+                fastDelivery: false,
+                freeShipping: true,
+                bestseller: false,
+                newArrival: true,
+                discount: 26,
+                colors: ["Silver", "Black"],
+                specifications: {
+                    "Compatibility": "Tesla Model S",
+                    "Material": "ABS plastic",
+                    "Quantity": "Set of 4",
+                    "Installation": "Tool-free",
+                    "Warranty": "2 years"
+                }
+            }
+        ];
+
+        // Global variables
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        let compareList = JSON.parse(localStorage.getItem('compareList')) || [];
+        let currentProducts = [...products];
+        let currentSlide = 0;
+        let viewMode = 'grid';
+        let productsPerPage = 8;
+        let currentPage = 1;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateCartCount();
+            updateCompareCount();
+            updateProductCount();
+            startCarousel();
+            
+            // Load saved data from localStorage
+            if (cart.length > 0) updateCartDisplay();
+        });
+
+        // Carousel functionality
+        function startCarousel() {
+            setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+
+        function nextSlide() {
+            const carousel = document.getElementById('heroCarousel');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            currentSlide = (currentSlide + 1) % 3;
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('bg-opacity-75', index === currentSlide);
+                indicator.classList.toggle('bg-opacity-50', index !== currentSlide);
+            });
+        }
+
+        function prevSlide() {
+            const carousel = document.getElementById('heroCarousel');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            currentSlide = currentSlide === 0 ? 2 : currentSlide - 1;
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('bg-opacity-75', index === currentSlide);
+                indicator.classList.toggle('bg-opacity-50', index !== currentSlide);
+            });
+        }
+
+        function goToSlide(slideIndex) {
+            const carousel = document.getElementById('heroCarousel');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            currentSlide = slideIndex;
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('bg-opacity-75', index === currentSlide);
+                indicator.classList.toggle('bg-opacity-50', index !== currentSlide);
+            });
+        }
+
+        // Product display functionality
+        function displayProducts(productsToShow) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            if (productsToShow.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="text-6xl mb-4">🔍</div>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-2">No products found</h3>
+                        <p class="text-gray-500">Try adjusting your filters or search terms</p>
+                    </div>
+                `;
+                return;
+            }
+
+            productsToShow.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 bounce-in';
+                
+                const badges = [];
+                if (product.bestseller) badges.push('<span class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-1 rounded-full text-xs font-bold">🏆 BESTSELLER</span>');
+                if (product.newArrival) badges.push('<span class="bg-gradient-to-r from-green-400 to-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold">✨ NEW</span>');
+                if (product.fastDelivery) badges.push('<span class="bg-gradient-to-r from-purple-400 to-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold">⚡ FAST</span>');
+                
+                productCard.innerHTML = `
+                    <div class="relative">
+                        <div class="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center text-7xl relative overflow-hidden">
+                            ${product.image}
+                            ${!product.inStock ? '<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"><span class="text-white font-bold text-lg">OUT OF STOCK</span></div>' : ''}
+                        </div>
+                        <div class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                            ${product.discount}% OFF
+                        </div>
+                        <div class="absolute top-3 right-3 flex flex-col space-y-2">
+                            <button onclick="toggleWishlistItem(${product.id})" class="p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors">
+                                <svg class="w-5 h-5 ${wishlist.includes(product.id) ? 'text-red-500' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                                </svg>
+                            </button>
+                            <button onclick="addToCompare(${product.id})" class="p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors">
+                                <svg class="w-5 h-5 ${compareList.includes(product.id) ? 'text-blue-500' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15.586 13H17a1 1 0 010-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        ${badges.length > 0 ? `<div class="absolute bottom-3 left-3 flex flex-wrap gap-1">${badges.join('')}</div>` : ''}
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-3">
+                            <span class="text-sm text-gray-500 font-medium">${product.brand}</span>
+                            <h3 class="font-bold text-lg mb-2 line-clamp-2 text-gray-800">${product.name}</h3>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            <div class="flex text-yellow-400 text-lg">
+                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            </div>
+                            <span class="text-sm text-gray-600 ml-2">${product.rating} (${product.reviews.toLocaleString()})</span>
+                        </div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <span class="text-2xl font-bold text-orange-600">$${product.price}</span>
+                            <span class="text-lg text-gray-500 line-through">$${product.originalPrice}</span>
+                            <span class="text-sm text-green-600 font-semibold">Save $${product.originalPrice - product.price}</span>
+                        </div>
+                        <div class="flex items-center mb-4 space-x-2 text-sm">
+                            ${product.freeShipping ? '<span class="bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">🚚 Free Shipping</span>' : ''}
+                            ${product.fastDelivery ? '<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">⚡ Fast Delivery</span>' : ''}
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="${product.inStock ? `addToCart(${product.id})` : 'showNotification(\'Product is out of stock\', \'error\')'}" 
+                                    class="flex-1 ${product.inStock ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600' : 'bg-gray-400 cursor-not-allowed'} text-white py-3 px-4 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+                                ${product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                            </button>
+                            <button onclick="showQuickView(${product.id})" class="px-4 py-3 border-2 border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-all font-semibold">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(productCard);
+            });
+        }
+
+        // Search functionality
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!searchTerm) {
+                currentProducts = [...products];
+                displayProducts(currentProducts.slice(0, productsPerPage));
+                updateProductCount();
+                return;
+            }
+            
+            currentProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm) ||
+                product.brand.toLowerCase().includes(searchTerm) ||
+                product.features.some(feature => feature.toLowerCase().includes(searchTerm))
+            );
+            
+            currentPage = 1;
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateProductCount();
+            
+            if (currentProducts.length === 0) {
+                showNotification(`No products found for "${searchTerm}"`, 'warning');
+            } else {
+                showNotification(`Found ${currentProducts.length} products for "${searchTerm}"`, 'success');
+            }
+        }
+
+        // Filter functions
+        function filterByCategory(category) {
+            // Update active category button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('text-orange-300');
+            });
+            event.target.classList.add('text-orange-300');
+
+            if (category === 'all') {
+                currentProducts = [...products];
+            } else {
+                currentProducts = products.filter(product => product.category === category);
+            }
+            currentPage = 1;
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateProductCount();
+            showNotification(`Showing ${currentProducts.length} ${category === 'all' ? '' : category} products`, 'info');
+        }
+
+        function filterByPrice() {
+            const priceRange = document.getElementById('priceFilter').value;
+            let filtered = [...products];
+
+            if (priceRange !== 'all') {
+                const [min, max] = priceRange.split('-').map(p => p.replace('+', ''));
+                filtered = products.filter(product => {
+                    if (max) {
+                        return product.price >= parseInt(min) && product.price <= parseInt(max);
+                    } else {
+                        return product.price >= parseInt(min);
+                    }
+                });
+            }
+
+            currentProducts = filtered;
+            currentPage = 1;
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateProductCount();
+        }
+
+        function filterByRating() {
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            let filtered = [...products];
+
+            if (ratingFilter !== 'all') {
+                const minRating = parseFloat(ratingFilter.replace('+', ''));
+                filtered = products.filter(product => product.rating >= minRating);
+            }
+
+            currentProducts = filtered;
+            currentPage = 1;
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateProductCount();
+        }
+
+        function sortProducts() {
+            const sortBy = document.getElementById('sortSelect').value;
+            let sorted = [...currentProducts];
+
+            switch(sortBy) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    sorted.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    sorted.sort((a, b) => b.newArrival - a.newArrival);
+                    break;
+                case 'bestseller':
+                    sorted.sort((a, b) => b.bestseller - a.bestseller);
+                    break;
+                default:
+                    // Keep original order for featured
+                    break;
+            }
+
+            currentProducts = sorted;
+            displayProducts(currentProducts.slice(0, productsPerPage * currentPage));
+        }
+
+        // Special filter functions
+        function showDeals() {
+            currentProducts = products.filter(product => product.discount >= 20);
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateProductCount();
+            showNotification(`Found ${currentProducts.length} great deals!`, 'success');
+        }
+
+        function showBestSellers() {
+            currentProducts = products.filter(product => product.bestseller);
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateProductCount();
+            showNotification(`Showing ${currentProducts.length} bestselling products`, 'success');
+        }
+
+        function showNewArrivals() {
+            currentProducts = products.filter(product => product.newArrival);
+            displayProducts(currentProducts.slice(0, productsPerPage));
+            updateProductCount();
+            showNotification(`Check out ${currentProducts.length} new arrivals!`, 'success');
+        }
+
+        function showCoupons() {
+            showNotification('🎫 Use code SAVE20 for 20% off your first order!', 'success');
+        }
+
+        // Cart functionality
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.inStock) {
+                showNotification('Product is not available', 'error');
+                return;
+            }
+
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+                showNotification(`Increased quantity of ${product.name}`, 'success');
+            } else {
+                cart.push({...product, quantity: 1});
+                showNotification(`${product.name} added to cart!`, 'success');
+            }
+
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+        }
+
+        function removeFromCart(productId) {
+            const product = cart.find(item => item.id === productId);
+            cart = cart.filter(item => item.id !== productId);
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+            showNotification(`${product.name} removed from cart`, 'info');
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartCount();
+                    updateCartDisplay();
+                    saveCartToStorage();
+                }
+            }
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartTax = document.getElementById('cartTax');
+            const cartTotalAmount = document.getElementById('cartTotalAmount');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center text-gray-500 py-12">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                        </svg>
+                        <p class="text-lg font-medium">Your cart is empty</p>
+                        <p class="text-sm">Add some products to get started!</p>
+                    </div>
+                `;
+                cartSubtotal.textContent = '$0.00';
+                cartTax.textContent = '$0.00';
+                cartTotalAmount.textContent = '$0.00';
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08; // 8% tax
+            const total = subtotal + tax;
+
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            cartTax.textContent = `$${tax.toFixed(2)}`;
+            cartTotalAmount.textContent = `$${total.toFixed(2)}`;
+
+            cartItems.innerHTML = cart.map(item => `
+                <div class="flex items-center space-x-4 py-4 border-b border-gray-200 last:border-b-0">
+                    <div class="text-4xl">${item.image}</div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-800">${item.name}</h4>
+                        <p class="text-sm text-gray-500">${item.brand}</p>
+                        <p class="text-orange-600 font-bold">$${item.price}</p>
+                        ${item.freeShipping ? '<span class="text-xs text-green-600 font-medium">🚚 Free Shipping</span>' : ''}
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                            </svg>
+                        </button>
+                        <span class="w-8 text-center font-semibold">${item.quantity}</span>
+                        <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 p-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"/>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            const isOpen = !sidebar.classList.contains('translate-x-full');
+            
+            if (isOpen) {
+                sidebar.classList.add('translate-x-full');
+            } else {
+                sidebar.classList.remove('translate-x-full');
+                updateCartDisplay();
+            }
+        }
+
+        function continueShopping() {
+            toggleCart();
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', 'error');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = total * 0.08;
+            const finalTotal = total + tax;
+            
+            showNotification(`🎉 Demo checkout complete! Total: $${finalTotal.toFixed(2)}`, 'success');
+            cart = [];
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+            toggleCart();
+        }
+
+        // Wishlist functionality
+        function toggleWishlistItem(productId) {
+            const product = products.find(p => p.id === productId);
+            const index = wishlist.indexOf(productId);
+            
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showNotification(`${product.name} removed from wishlist`, 'info');
+            } else {
+                wishlist.push(productId);
+                showNotification(`${product.name} added to wishlist!`, 'success');
+            }
+            
+            saveWishlistToStorage();
+            displayProducts(currentProducts.slice(0, productsPerPage * currentPage));
+        }
+
+        // Compare functionality
+        function addToCompare(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (compareList.includes(productId)) {
+                compareList = compareList.filter(id => id !== productId);
+                showNotification(`${product.name} removed from compare`, 'info');
+            } else {
+                if (compareList.length >= 4) {
+                    showNotification('You can compare up to 4 products only', 'warning');
+                    return;
+                }
+                compareList.push(productId);
+                showNotification(`${product.name} added to compare!`, 'success');
+            }
+            
+            updateCompareCount();
+            saveCompareToStorage();
+            displayProducts(currentProducts.slice(0, productsPerPage * currentPage));
+        }
+
+        function updateCompareCount() {
+            document.getElementById('compareCount').textContent = compareList.length;
+        }
+
+        function toggleCompare() {
+            if (compareList.length === 0) {
+                showNotification('Add products to compare first', 'info');
+                return;
+            }
+            showCompareModal();
+        }
+
+        function showCompareModal() {
+            const modal = document.getElementById('compareModal');
+            const content = document.getElementById('compareContent');
+            
+            const compareProducts = products.filter(p => compareList.includes(p.id));
+            
+            content.innerHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="text-left p-4 font-semibold">Feature</th>
+                                ${compareProducts.map(product => `
+                                    <th class="text-center p-4">
+                                        <div class="text-4xl mb-2">${product.image}</div>
+                                        <h3 class="font-semibold text-sm">${product.name}</h3>
+                                        <p class="text-orange-600 font-bold">$${product.price}</p>
+                                        <button onclick="removeFromCompare(${product.id})" class="text-red-500 text-xs mt-2">Remove</button>
+                                    </th>
+                                `).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t">
+                                <td class="p-4 font-medium">Price</td>
+                                ${compareProducts.map(product => `<td class="text-center p-4 text-orange-600 font-bold">$${product.price}</td>`).join('')}
+                            </tr>
+                            <tr class="border-t bg-gray-50">
+                                <td class="p-4 font-medium">Rating</td>
+                                ${compareProducts.map(product => `<td class="text-center p-4">${product.rating} ★</td>`).join('')}
+                            </tr>
+                            <tr class="border-t">
+                                <td class="p-4 font-medium">Brand</td>
+                                ${compareProducts.map(product => `<td class="text-center p-4">${product.brand}</td>`).join('')}
+                            </tr>
+                            <tr class="border-t bg-gray-50">
+                                <td class="p-4 font-medium">Free Shipping</td>
+                                ${compareProducts.map(product => `<td class="text-center p-4">${product.freeShipping ? '✅' : '❌'}</td>`).join('')}
+                            </tr>
+                            <tr class="border-t">
+                                <td class="p-4 font-medium">Fast Delivery</td>
+                                ${compareProducts.map(product => `<td class="text-center p-4">${product.fastDelivery ? '✅' : '❌'}</td>`).join('')}
+                            </tr>
+                            <tr class="border-t bg-gray-50">
+                                <td class="p-4 font-medium">In Stock</td>
+                                ${compareProducts.map(product => `<td class="text-center p-4">${product.inStock ? '✅' : '❌'}</td>`).join('')}
+                            </tr>
+                            <tr class="border-t">
+                                <td class="p-4 font-medium">Actions</td>
+                                ${compareProducts.map(product => `
+                                    <td class="text-center p-4">
+                                        <button onclick="addToCart(${product.id}); closeCompareModal();" class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-600 transition-colors">
+                                            Add to Cart
+                                        </button>
+                                    </td>
+                                `).join('')}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function removeFromCompare(productId) {
+            compareList = compareList.filter(id => id !== productId);
+            updateCompareCount();
+            saveCompareToStorage();
+            
+            if (compareList.length === 0) {
+                closeCompareModal();
+            } else {
+                showCompareModal();
+            }
+        }
+
+        function closeCompareModal() {
+            const modal = document.getElementById('compareModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Quick view functionality
+        function showQuickView(productId) {
+            const product = products.find(p => p.id === productId);
+            const modal = document.getElementById('quickViewModal');
+            const content = document.getElementById('quickViewContent');
+
+            content.innerHTML = `
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-sm text-gray-500 font-medium">${product.brand}</span>
+                        <h2 class="text-3xl font-bold text-gray-800">${product.name}</h2>
+                    </div>
+                    <button onclick="closeQuickView()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl h-96 flex items-center justify-center text-8xl mb-6">
+                            ${product.image}
+                        </div>
+                        <div class="grid grid-cols-4 gap-2">
+                            ${product.colors.map(color => `
+                                <div class="bg-gray-100 rounded-lg p-4 text-center text-sm font-medium">${color}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400 text-xl">
+                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            </div>
+                            <span class="text-gray-600 ml-2">${product.rating} (${product.reviews.toLocaleString()} reviews)</span>
+                        </div>
+                        <div class="flex items-center space-x-4 mb-6">
+                            <span class="text-4xl font-bold text-orange-600">$${product.price}</span>
+                            <span class="text-2xl text-gray-500 line-through">$${product.originalPrice}</span>
+                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">${product.discount}% OFF</span>
+                        </div>
+                        <p class="text-gray-700 mb-6 text-lg">${product.description}</p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-bold mb-3 text-lg">Key Features:</h4>
+                            <ul class="space-y-2">
+                                ${product.features.map(feature => `
+                                    <li class="flex items-center">
+                                        <span class="text-green-500 mr-3 text-lg">✓</span>
+                                        <span>${feature}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="font-bold mb-3 text-lg">Specifications:</h4>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                ${Object.entries(product.specifications).map(([key, value]) => `
+                                    <div class="flex justify-between py-2 border-b border-gray-200 last:border-b-0">
+                                        <span class="font-medium">${key}:</span>
+                                        <span class="text-gray-600">${value}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mb-6 space-x-4 text-sm">
+                            ${product.freeShipping ? '<span class="bg-green-100 text-green-800 px-3 py-2 rounded-full font-medium">🚚 Free Shipping</span>' : ''}
+                            ${product.fastDelivery ? '<span class="bg-blue-100 text-blue-800 px-3 py-2 rounded-full font-medium">⚡ Fast Delivery</span>' : ''}
+                            ${product.inStock ? '<span class="bg-green-100 text-green-800 px-3 py-2 rounded-full font-medium">✅ In Stock</span>' : '<span class="bg-red-100 text-red-800 px-3 py-2 rounded-full font-medium">❌ Out of Stock</span>'}
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <button onclick="${product.inStock ? `addToCart(${product.id}); closeQuickView();` : 'showNotification(\'Product is out of stock\', \'error\')'}" 
+                                    class="flex-1 ${product.inStock ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600' : 'bg-gray-400 cursor-not-allowed'} text-white py-4 px-6 rounded-lg font-bold text-lg transition-all transform hover:scale-105 shadow-lg">
+                                ${product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                            </button>
+                            <button onclick="toggleWishlistItem(${product.id})" class="px-6 py-4 border-2 border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-all font-bold">
+                                ${wishlist.includes(product.id) ? '❤️ In Wishlist' : '🤍 Add to Wishlist'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quickViewModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Utility functions
+        function updateProductCount() {
+            document.getElementById('productCount').textContent = `Showing ${Math.min(currentProducts.length, productsPerPage * currentPage)} of ${currentProducts.length} products`;
+        }
+
+        function loadMoreProducts() {
+            currentPage++;
+            const startIndex = 0;
+            const endIndex = productsPerPage * currentPage;
+            displayProducts(currentProducts.slice(startIndex, endIndex));
+            updateProductCount();
+            
+            if (endIndex >= currentProducts.length) {
+                document.getElementById('loadMoreBtn').style.display = 'none';
+            }
+        }
+
+        function toggleViewMode() {
+            const btn = document.getElementById('viewModeBtn');
+            const grid = document.getElementById('productsGrid');
+            
+            if (viewMode === 'grid') {
+                viewMode = 'list';
+                btn.innerHTML = `
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                    </svg>
+                    <span>List View</span>
+                `;
+                grid.className = 'space-y-4';
+            } else {
+                viewMode = 'grid';
+                btn.innerHTML = `
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                    </svg>
+                    <span>Grid View</span>
+                `;
+                grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-gradient-to-r from-green-500 to-emerald-600',
+                error: 'bg-gradient-to-r from-red-500 to-pink-600',
+                warning: 'bg-gradient-to-r from-yellow-500 to-orange-600',
+                info: 'bg-gradient-to-r from-blue-500 to-purple-600'
+            };
+            
+            notification.className = `notification ${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg font-semibold max-w-sm`;
+            notification.textContent = message;
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    container.removeChild(notification);
+                }, 300);
+            }, 4000);
+        }
+
+        // Storage functions
+        function saveCartToStorage() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function saveWishlistToStorage() {
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        function saveCompareToStorage() {
+            localStorage.setItem('compareList', JSON.stringify(compareList));
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchProducts();
+            }
+        });
+
+        // Real-time search suggestions
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            if (searchTerm.length > 2) {
+                // Auto-search after 3 characters for better UX
+                setTimeout(() => {
+                    if (document.getElementById('searchInput').value.toLowerCase().trim() === searchTerm) {
+                        searchProducts();
+                    }
+                }, 500);
+            } else if (searchTerm.length === 0) {
+                // Reset to all products when search is cleared
+                currentProducts = [...products];
+                displayProducts(currentProducts.slice(0, productsPerPage));
+                updateProductCount();
+            }
+        });
+
+        // Close modals when clicking outside
+        document.getElementById('quickViewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQuickView();
+            }
+        });
+
+        document.getElementById('compareModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCompareModal();
+            }
+        });
+
+        // Additional category functions
+        function toggleAllCategories() {
+            showNotification('All categories menu - Feature coming soon!', 'info');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96e8f101a2017f65',t:'MTc1NTA5NTc1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
